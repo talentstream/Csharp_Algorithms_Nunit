@@ -19,7 +19,7 @@ namespace Algorithms.Sorters
         ///     3*n+1 大概在 O(n^(3/2))
         ///     希尔排序就是用跳跃式的来减少最坏情况的发生
         ///     也就是说，原本插入可能要 N 次 交换，变到 3 次交换
-        ///     最优的时间复杂度为O(n*(logn)^2),但是step的计算比较麻烦
+        ///     最优的最坏时间复杂度为O(n*(logn)^2),但是step的计算比较麻烦
         ///     所以通常用 3 为倍数
         /// </summary>
         /// <param name="array">排序数组</param>
@@ -28,18 +28,18 @@ namespace Algorithms.Sorters
         {
             var step = 1;
             while (step < array.Length / 3) step = 3 * step + 1;
-            while(step>=1)
+            while (step >= 1)
             {
                 GappedInsertionSort(array, comparer, step);
                 step /= 3;
             }
         }
 
-        private static void GappedInsertionSort(T[] array,IComparer<T> comparer,int step)
+        private static void GappedInsertionSort(T[] array, IComparer<T> comparer, int step)
         {
-            for(var i = step; i < array.Length; i++)
+            for (var i = step; i < array.Length; i++)
             {
-                for(var j = i; j>=step && comparer.Compare(array[j],array[j - step]) < 0; j-= step)
+                for (var j = i; j >= step && comparer.Compare(array[j], array[j - step]) < 0; j -= step)
                 {
                     var temp = array[j];
                     array[j] = array[j - step];
