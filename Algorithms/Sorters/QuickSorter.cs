@@ -7,12 +7,16 @@ using System.Threading.Tasks;
 namespace Algorithms.Sorters
 {
     /// <summary>
-    /// 
+    ///     实现快速排序的类
     /// </summary>
     /// <typeparam name="T"></typeparam>
     public abstract class QuickSorter<T> : IComparisonSorter<T>
     {
         /// <summary>
+        ///     平均时间复杂度 O(nlogn)
+        ///     最坏情况下时间复杂度 O(n^2)
+        ///     空间复杂度 O(logn)
+        ///     选定一个参数，将比它小的数放左边，比它大的数放右边  
         /// 
         /// </summary>
         /// <param name="array"></param>
