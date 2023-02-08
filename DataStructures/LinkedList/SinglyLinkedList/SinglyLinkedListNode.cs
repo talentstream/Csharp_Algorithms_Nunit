@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace DataStructures.LinkedList.SinglyLinkedList
 {
+    /// <summary>
+    ///     单链表节点定义
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public class SinglyLinkedListNode<T>
     {
         public T Data { get; }

@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace DataStructures.BinarySearchTree
 {
+    /// <summary>
+    ///     二叉搜索树节点定义
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public class BinarySearchTreeNode<T>
     {
         public T Data { get; }

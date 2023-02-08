@@ -6,6 +6,31 @@ using System.Threading.Tasks;
 
 namespace DataStructures.BinarySearchTree
 {
+    /// <summary>
+    ///     二叉查找树，这里实现的二叉查找树节点数据不重复
+    /// </summary>
+    /// <remarks>
+    ///     二叉查找树的属性 ：
+    ///     <list type="bullet">
+    ///         <item>当前节点左孩子的值要小于当前节点的值</item>
+    ///         <item>当前节点右孩子的值要大于当前节点的值</item>
+    ///         <item>平均情况下插入、删除、查找操作的时间复杂度为O(logn)</item>
+    ///     </list>
+    ///     提供的API ：
+    ///     <list type="bullet">
+    ///         <item>Add</item>
+    ///         <item>AddRange</item>
+    ///         <item>Search</item>
+    ///         <item>Contains</item>
+    ///         <item>Remove</item>
+    ///         <item>GetMax</item>
+    ///         <item>GetMin</item>
+    ///         <item>GetKeysInOrder</item>
+    ///         <item>GetKeysPreOrder</item>
+    ///         <item>GetKeysPostOrder</item>
+    ///     </list>
+    /// </remarks>
+    /// <typeparam name="T"></typeparam>
     public class BinarySearchTree<T>
     {
         private readonly Comparer<T> comparer;
@@ -86,6 +111,12 @@ namespace DataStructures.BinarySearchTree
         public ICollection<T> GetKeysPreOrder() => GetKeysPreOrder(Root);
         public ICollection<T> GetKeysPostOrder() => GetKeysPostOrder(Root);
 
+        /// <summary>
+        ///     向二叉搜索树插入新节点
+        /// </summary>
+        /// <param name="curNode">当前节点</param>
+        /// <param name="data">新节点数据</param>
+        /// <exception cref="ArgumentException"></exception>
         private void Add(BinarySearchTreeNode<T> curNode, T data)
         {
             var compareResult = comparer.Compare(curNode.Data, data);
@@ -120,6 +151,25 @@ namespace DataStructures.BinarySearchTree
             }
         }
 
+        /// <summary>
+        ///     删除二叉树的节点
+        /// </summary>
+        /// <param name="parent">当前节点父亲</param>
+        /// <param name="node">当前节点</param>
+        /// <param name="data">要删除的节点数据</param>
+        /// <returns>返回是否删除节点</returns>
+        /// <remarks>
+        ///     删除节点的3种情况：
+        ///     <br></br>
+        ///     1.当前节点没有孩子，直接删除
+        ///     <br></br>
+        ///     2.当前节点只有一个孩子，直接让子节点替代当前节点
+        ///     <br></br>
+        ///     3.当前节点左右孩子都有，我们在这里去找到右子树的最小节点
+        ///     然后让删除该节点，并且让该节点替代掉当前节点
+        ///     <br></br>
+        ///     第1、2种情况可以合并
+        /// </remarks>
         private bool Remove(BinarySearchTreeNode<T>? parent, BinarySearchTreeNode<T>? node, T data)
         {
             if (node is null || parent is null)

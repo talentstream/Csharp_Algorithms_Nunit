@@ -6,10 +6,31 @@ using System.Threading.Tasks;
 
 namespace DataStructures.LinkedList.SinglyLinkedList
 {
+    /// <summary>
+    ///     单链表
+    /// </summary>
+    /// <remarks>
+    ///     提供的API ：
+    ///     <list type="bullet">
+    ///         <item>AddFirst</item>
+    ///         <item>AddLast</item>
+    ///         <item>GetElementByIndex</item>
+    ///         <item>GetListData</item>
+    ///         <item>Length</item>
+    ///         <item>DeleteElement</item>
+    ///     </list>
+    /// </remarks>
+    /// <typeparam name="T"></typeparam>
     public class SinglyLinkedList<T>
     {
         private SinglyLinkedListNode<T>? Head { get; set; }
 
+        /// <summary>
+        ///     添加节点到链表头
+        ///     时间复杂度 O(1)
+        /// </summary>
+        /// <param name="data">节点所带的数据</param>
+        /// <returns>返回一个新节点</returns>
         public SinglyLinkedListNode<T> AddFirst(T data)
         {
             var newListElement = new SinglyLinkedListNode<T>(data)
@@ -21,6 +42,12 @@ namespace DataStructures.LinkedList.SinglyLinkedList
             return newListElement;
         }
 
+        /// <summary>
+        ///     添加节点到链表尾
+        ///     时间复杂度 O(n)
+        /// </summary>
+        /// <param name="data">节点所带的数据</param>
+        /// <returns>返回一个新节点</returns>
         public SinglyLinkedListNode<T> AddLast(T data)
         {
             var newListElement = new SinglyLinkedListNode<T>(data);
@@ -42,6 +69,12 @@ namespace DataStructures.LinkedList.SinglyLinkedList
             return newListElement;
         }
 
+        /// <summary>
+        ///     在链表中根据位置返回节点数据
+        /// </summary>
+        /// <param name="index">节点所带的数据</param>
+        /// <returns>节点数据</returns>
+        /// <exception cref="ArgumentOutOfRangeException">防止index越界</exception>
         public T GetElementByIndex(int index)
         {
             if (index < 0)
@@ -64,6 +97,10 @@ namespace DataStructures.LinkedList.SinglyLinkedList
             return tempElement.Data;
         }
 
+        /// <summary>
+        ///     返回链表长度
+        /// </summary>
+        /// <returns>链表长度</returns>
         public int Length()
         {
             if(Head is null)
@@ -82,6 +119,11 @@ namespace DataStructures.LinkedList.SinglyLinkedList
 
             return length;
         }
+
+        /// <summary>
+        ///     返回链表数据
+        /// </summary>
+        /// <returns>返回可枚举类型</returns>
         public IEnumerable<T> GetListData()
         {
             var tempElement = Head;
@@ -93,6 +135,11 @@ namespace DataStructures.LinkedList.SinglyLinkedList
             }
         }
 
+        /// <summary>
+        ///     删除链表节点
+        /// </summary>
+        /// <param name="element">节点数据</param>
+        /// <returns>返回bool型：是否删除了元素</returns>
         public bool DeleteElement(T element)
         {
             var currentElement = Head;
