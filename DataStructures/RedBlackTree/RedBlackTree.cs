@@ -35,9 +35,21 @@ namespace DataStructures.RedBlackTree
             }
         }
 
+        public void Delete(T data)
+        {
+            if (!IsRed(Root.Left) && !IsRed(Root.Right))
+            {
+                Root.Color = NodeColor.Red;
+            }
+
+            Root = Delete(Root, data);
+            if (Root is not null) Root.Color = NodeColor.Black;
+        }
+
+
         private RedBlackTreeNode<T> Add(RedBlackTreeNode<T>? curNode, T data)
         {
-            if(curNode is null)
+            if (curNode is null)
             {
                 return new RedBlackTreeNode<T>(data, NodeColor.Red);
             }
@@ -50,19 +62,79 @@ namespace DataStructures.RedBlackTree
                 throw new ArgumentException($"Data \"{data}\" already exists in tree!");
             }
 
-            if (IsRed(curNode.Right) && !IsRed(curNode.Left)) curNode = RotateLeft(curNode);
-            if (IsRed(curNode.Left) && IsRed(curNode.Left!.Left)) curNode = RotateRight(curNode);
-            if (IsRed(curNode.Left) && IsRed(curNode.Right)) FlipColors(curNode);
+            return Balance(curNode);
+        }
+        private RedBlackTreeNode<T>? Delete(RedBlackTreeNode<T>? curNode, T data)
+        {
+            var compareResult = comparer.Compare(curNode.Data, data);
+            if (compareResult > 0)
+            {
+                if (!IsRed(curNode.Left) && !IsRed(curNode.Left.Left))
+                {
+                    curNode = MoveRedLeft(curNode);
+                }
+                curNode.Left = Delete(curNode.Left, data);
+            }
+            else
+            {
+                if (IsRed(curNode.Left))
+                {
+                    curNode = RotateRight(curNode);
+                }
+                if(compareResult == 0 && curNode.Right is null)
+                {
+                    return null;
+                }
+                if(!IsRed(curNode.Right) && !IsRed(curNode.Right.Left))
+                {
+                    curNode = MoveRedRight(curNode);
+                }
+                if(compareResult == 0)
+                {
 
-            return curNode;
+                }
+                else
+                {
+                    curNode.Right = Delete(curNode.Right, data);
+                }
+            }
+
+            return Balance(curNode);
         }
 
+        private RedBlackTreeNode<T> MoveRedLeft(RedBlackTreeNode<T>? node)
+        {
+            FlipColors(node);
+            if (IsRed(node.Right.Left))
+            {
+                node.Right = RotateRight(node.Right);
+                node = RotateLeft(node);
+            }
+            return node;
+        }
+        private RedBlackTreeNode<T> MoveRedRight(RedBlackTreeNode<T>? node)
+        {
+            FlipColors(node);
+            if (!IsRed(node.Left.Left))
+            {
+                node = RotateRight(node);
+            }
+            return node;
+        }
         private bool IsRed(RedBlackTreeNode<T>? node)
         {
             if (node == null) return false;
             return node.Color == NodeColor.Red;
         }
 
+        private RedBlackTreeNode<T> Balance(RedBlackTreeNode<T> node)
+        {
+            if (IsRed(node.Right) && !IsRed(node.Left)) node = RotateLeft(node);
+            if (IsRed(node.Left) && IsRed(node.Left!.Left)) node = RotateRight(node);
+            if (IsRed(node.Left) && IsRed(node.Right)) FlipColors(node);
+
+            return node;
+        }
         private RedBlackTreeNode<T> RotateLeft(RedBlackTreeNode<T> node)
         {
             var tempNode = node.Right;
